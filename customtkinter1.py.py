@@ -26,26 +26,40 @@ class Window(ct.CTk):
         #----------- Main Frames -----------
         self.main_Lframe = ct.CTkFrame(self,width=380,height=580)
         self.main_Lframe.grid(row=0,column=0,rowspan=2,padx=10,pady=10)
-        self.main_editLframe = ct.CTkFrame(self.main_Lframe,width=380,height=580)
-        self.main_editLframe.grid(row=0,column=0)
+        self.main_Lframe.grid_propagate(0)
+        # self.main_Lframe.grid_rowconfigure(0,weight=1)
+        # self.main_Lframe.grid_rowconfigure(1,weight=1)
+        # self.main_Lframe.grid_rowconfigure(2,weight=1)
 
+        # self.main_Lframe.grid_columnconfigure(0,weight=1)
+        # self.main_Lframe.grid_columnconfigure(1,weight=1)
+
+
+
+        # self.main_editLframe = ct.CTkFrame(self.main_Lframe,width=380,height=580)
+        # self.main_editLframe.grid(row=0,column=0,sticky="nsew")
+        
         
         self.main_Rframe1 = ct.CTkFrame(self,width=380,height=285)
         self.main_Rframe1.grid(row=0,column=1)
+        self.main_Rframe1.grid_propagate(0)
         self.main_editRframe1 = ct.CTkFrame(self.main_Rframe1,width=380,height=285)
         self.main_editRframe1.grid(row=0,column=0,sticky="nsew")
         
         self.main_Rframe2 = ct.CTkFrame(self,width=380,height=285)
         self.main_Rframe2.grid(row=1,column=1)
+        self.main_Rframe2.grid_propagate(0)
         self.main_editRframe2 = ct.CTkFrame(self.main_Rframe2,width=380,height=285)
         self.main_editRframe2.grid(row=0,column=0,sticky="nsew")
 
         #----------- Labels ----------------
         
-        self.Llabel1 = ct.CTkLabel(self.main_editLframe,text=self.Ltext1)
-        self.Llabel1.grid(row=0,column=0)
-        self.Llabel2 = ct.CTkLabel(self.main_editLframe,text=self.Ltext2)
-        self.Llabel2.grid(row=1,column=0)
+        self.Llabel1 = ct.CTkLabel(self.main_Lframe,text=self.Ltext1)
+        self.Llabel1.grid(row=0,column=0,sticky="sew")
+        # self.Llabel2 = ct.CTkLabel(self.main_editLframe,text=self.Ltext2)
+        # self.Llabel2.grid(row=1,column=0)
+        # self.ed = ct.CTkLabel(self.main_editLframe,text="sdgfvdv")
+        # self.ed.grid(row=2,column=1)
 
         
         
