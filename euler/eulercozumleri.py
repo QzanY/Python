@@ -799,3 +799,25 @@ for prime in primes:
     if chain + 1 == 25:
         summ += prime
 print(summ)
+
+#751 - 1.3077259063720703
+
+def b(n,Q):
+    if n==1:
+        return Q
+    else:
+        return floor(b(n-1,Q))*(b(n-1,Q)-floor(b(n-1,Q))+1)
+
+def a(n,Q):
+    return floor(b(n,Q))
+
+def concatenator(n,Q):
+    num = ""
+    num += str(a(1,Q))
+    num += "."
+    for i in range(2,n+1):
+        num += str(a(i,Q))
+    return(num)
+    
+print(concatenator(15,2.223561019313554106173177))
+
