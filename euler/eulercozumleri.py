@@ -800,6 +800,35 @@ for prime in primes:
         summ += prime
 print(summ)
 
+#684 - Too much time
+
+def s(n):
+    str_num = ""
+    remain = n
+    while remain>9:
+        str_num += "9"
+        remain -= 9     
+    num = str(remain) + str_num
+    return int(num)
+
+
+def fib(n):
+    return int(((((1+(5**0.5))/2)**(n))-(((1-(5**0.5))/2)**(n)))/(5**0.5))%100000007
+
+
+def S(k):
+    if k<10:
+        return int(k*(k+1)/2)
+    else:
+        q = k//9
+        r = k%9
+        return int(45+54*(((10**q-1)/9)-1)-9*(q-1)+(10**q)*(((r+1)*(r+2)/2)-1)-r)%1000000007
+
+total = 0
+for i in range(2,91):
+    total += S(fib(i))%1000000007
+print(total%1000000007)
+
 #751 - 1.3077259063720703
 
 def b(n,Q):
