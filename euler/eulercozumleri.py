@@ -800,6 +800,34 @@ for prime in primes:
         summ += prime
 print(summ)
 
+#357 - 34.9300448068
+
+def list_primality(n):
+    result = [True] * (n + 1)
+    result[0] = result[1] = False
+    for i in range(int(math.sqrt(n)) + 1):
+        if result[i]:
+            for j in range(2 * i, len(result), i):
+                result[j] = False
+    return result
+
+liste = list_primality(100000001)
+print("asallar ayarlandı")
+total = 0
+for i in range(2,100000001,4):
+    kontrol=True
+    if liste[i+1]==False:
+        kontrol = False
+    if kontrol:
+        for j in range(1, int(math.sqrt(i))+1):
+            if i % j == 0 and liste[j+i//j]== False:
+                kontrol = False
+                break
+    if kontrol:
+        total +=i
+
+print(total)
+
 #684 - Too much time
 
 def s(n):
