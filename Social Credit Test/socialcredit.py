@@ -16,7 +16,6 @@ def dd():
     pygame.mixer.Channel(1).play(pygame.mixer.Sound("dogru.mp3"))
 
 
-
 t2 = threading.Thread(target=g)
 
 t3 = threading.Thread(target=gg)
@@ -24,7 +23,6 @@ t3 = threading.Thread(target=gg)
 t4 = threading.Thread(target=dd)
 t5 = threading.Thread(target=dd)
 t6 = threading.Thread(target=dd)
-
 
 
 def f():
@@ -54,12 +52,7 @@ def f():
             eksii = Label(gg,image=eksi)
             eksii.pack()
             gg.mainloop()
-            
-
-
-            
-            
-            
+                    
         def dogrucevap1():
             soru1.destroy()
             t4.start()
@@ -196,13 +189,6 @@ def f():
     basla.pack()
 
     ilk_pencere.mainloop()
-
-
-
-
-
-
-    
 
 
 
