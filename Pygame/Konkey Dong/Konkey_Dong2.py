@@ -133,17 +133,34 @@ class Barrel(pygame.sprite.Sprite):
 
     def move(self):
         if self.rolling:
-            if self.pos.x < self.width/2:
+            self.falling = False
+            self.xvel = 2
+            self.yvel = 1
+            if self.pos.x < 15:
                 self.direction *= -1
                 self.pos.x = 0 + (self.width/2)
-            elif self.pos.x > WIDTH-self.width/2:
+            elif self.pos.x >= WIDTH-self.width:
                 self.direction *= -1
-                self.pos.x = WIDTH-(self.width/2)
-            self.falling = False
+                self.pos.x = WIDTH-(self.width)-1
             self.vel = vec(self.xvel*self.direction,self.yvel)
             self.pos += self.vel
         elif self.falling:
             self.rolling = False
+            self.xvel = 0
+            self.yvel = 2
+            self.vel = vec(self.xvel*self.direction,self.yvel)
+            self.pos += self.vel
+        elif self.falling2:
+            self.falling = False
+            self.rolling = False
+            self.xvel = 2
+            self.yvel = 2
+            if self.pos.x < 0:
+                self.direction *= -1
+                self.pos.x = 1
+            elif self.pos.x >= WIDTH-self.width:
+                self.direction *= -1
+                self.pos.x = WIDTH-(self.width)-1
             self.vel = vec(self.xvel*self.direction,self.yvel)
             self.pos += self.vel
         self.rect.bottomleft = self.pos
@@ -151,49 +168,23 @@ class Barrel(pygame.sprite.Sprite):
     def update(self):
         hitss = pygame.sprite.spritecollide(self,platforms,False)
         hitss2 = pygame.sprite.spritecollide(self,hladders,False)
-        # if self.rolling:
-        #     # if self.pos.x < self.width/2:
-        #     #     self.direction *= -1
-
-        #     if hitss:
-        #         self.pos.y = hitss[0].rect.top+1
-        #         # self.xvel = 2
-        #         # self.yvel = 0
-                
-        #         if hitss2:
-        #             print("ready")
-        #             if hitss2[0].rect.topleft <= self.rect.bottomleft < (hitss2[0].rect.topleft[0]+3,hitss2[0].rect.topleft[1]):
-        #                 RNG = random.randint(0,1)
-        #                 # RNG = 1
-        #                 print(RNG)
-        #                 if RNG == 0:
-        #                     pass
-        #                 else:
-        #                     # self.pos.y = hitss[0].rect.bottom+30
-        #                     self.falling = True
-        #                     self.rolling = False
-        #                     self.direction *= -1
-        #         else:
-        #             self.rolling = True
-        #             self.falling = False
-                    
-        #     else:
-        #         self.yvel = 3
-
-        # elif self.falling:
-        #     print("falling")
-        #     if hitss:
-        #         print()
-        #         self.falling = False
-        #         self.rolling = True
-        #         # self.pos.y = hitss[0].rect.top+1
-        #     else:
-        #         self.xvel = 0
-        #         self.yvel = 2
         if hitss:
             if hitss2:
-                if False:
-                    print()
+                
+                if (hitss2[0].rect.bottomleft[0] <= self.pos.x <= hitss2[0].rect.bottomleft[0]+3) and (hitss2[0].rect.topleft[1]-3 <= self.pos.y <= hitss2[0].rect.topleft[1]+hitss2[0].height-30):
+                    
+                    if (hitss2[0].rect.topleft[1]-3 <= self.pos.y <= hitss2[0].rect.topleft[1]+2):
+                        global RNG
+                        RNG = random.randint(0,1)
+                        if RNG ==0:
+                            pass
+                        else:
+                            self.direction *=-1
+                            print("aa")
+                    if RNG !=0:
+                        self.falling = True
+                        self.rolling = False
+
                 else:
                     self.rolling = True
                     self.falling = False
@@ -207,8 +198,10 @@ class Barrel(pygame.sprite.Sprite):
             self.rolling = False
 
         else:
-            self.xvel = 0
-            self.yvel = 2
+            self.falling2 = True
+            self.rolling = False
+            self.falling = False
+            
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self,width,height,posx,posy):
@@ -227,6 +220,7 @@ class Ladder(pygame.sprite.Sprite):
 class hLadder(pygame.sprite.Sprite):
     def __init__(self,height,posx,posy):
         super().__init__()
+        self.height = height
         self.surf = pygame.Surface((30,height))
         self.surf.fill((255,0,0))
         self.rect = self.surf.get_rect(bottomleft=(posx,posy))
@@ -296,19 +290,19 @@ PT6_5 = Platform(80,15,560+80,HEIGHT-480)
 PT7_1 = Platform(80,15,160+80,70)
 PT7_2 = Platform(160,15,240+80,55)
 
-HL1_1 = hLadder(30+20,210+80,HEIGHT-27)
-HL1_2 = hLadder(30+20,210+80,HEIGHT-77)
-HL2 = hLadder(80+20,560+80,HEIGHT-35)
-HL3 = hLadder(88+20,50+80,HEIGHT-122)
-HL4 = hLadder(94+20,256+80,HEIGHT-119)
-HL5_1 = hLadder(40+20,160+80,HEIGHT-212)
-HL6 = hLadder(94+20,320+80,HEIGHT-214)
-HL7 = hLadder(88+20,560+80,HEIGHT-217)
-HL8 = hLadder(88+20,50+80,HEIGHT-312)
-HL9 = hLadder(92+20,186+80,HEIGHT-310)
-HL10_1 = hLadder(30+20,506+80,HEIGHT-306)
-HL11_1 = hLadder(30+20,240+80,HEIGHT-403)
-HL12 = hLadder(88+20,560+80,HEIGHT-407)
+HL1_1 = hLadder(30,210+80,HEIGHT-27)
+HL1_2 = hLadder(30,210+80,HEIGHT-77)
+HL2 = hLadder(80,560+80,HEIGHT-35)
+HL3 = hLadder(88,50+80,HEIGHT-122)
+HL4 = hLadder(94,256+80,HEIGHT-119)
+HL5_1 = hLadder(40,160+80,HEIGHT-212)
+HL6 = hLadder(94,320+80,HEIGHT-214)
+HL7 = hLadder(88,560+80,HEIGHT-217)
+HL8 = hLadder(88,50+80,HEIGHT-312)
+HL9 = hLadder(92,186+80,HEIGHT-310)
+HL10_1 = hLadder(30,506+80,HEIGHT-306)
+HL11_1 = hLadder(30,240+80,HEIGHT-403)
+HL12 = hLadder(88,560+80,HEIGHT-407)
 
 L1_1 = Ladder(30,210+80,HEIGHT-27)
 L1_2 = Ladder(30,210+80,HEIGHT-77)
