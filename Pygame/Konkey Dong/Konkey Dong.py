@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.falling = False
         self.climbing = False
         self.declimbing = False
+        self.dead = False
 
     def move(self):
         self.acc = vec(0,0.25)
@@ -93,7 +94,7 @@ class Player(pygame.sprite.Sprite):
         hits2 = pygame.sprite.spritecollide(P1,ladders,False)
         hits3 = pygame.sprite.spritecollide(P1,barrels,False)
         if hits3:
-            self.kill()
+            self.dead = True
         if hits:
             if self.pos.y < hits[0].rect.bottom and self.declimbing==False:
                 self.falling = False
@@ -231,6 +232,32 @@ class fLadder(pygame.sprite.Sprite):
         self.surf.fill((0,20,255))
         self.rect = self.surf.get_rect(bottomleft=(posx,posy))
 
+def gameOverScreen(flag:int):
+    if flag:
+        pygame.time.delay(2000)
+        display_surface.fill((0,0,0))
+        winFont = pygame.font.SysFont('comicsans', 80)
+        winText = winFont.render("You Win!!!",1,(255,255,255))
+        textRect = winText.get_rect()
+        textRect.center = (WIDTH/2,HEIGHT/2)
+        display_surface.blit(winText,textRect)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        pygame.quit()
+        sys.exit()
+    else:
+        pygame.time.delay(2000)
+        display_surface.fill((0,0,0))
+        winFont = pygame.font.SysFont('comicsans', 80)
+        winText = winFont.render("You Lose",1,(255,255,255))
+        textRect = winText.get_rect()
+        textRect.center = (WIDTH/2,HEIGHT/2)
+        display_surface.blit(winText,textRect)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        pygame.quit()
+        sys.exit()
+    
 
 P1 = Player()
 start_ticks = pygame.time.get_ticks()
@@ -525,7 +552,8 @@ for barrel in barrels:
 
 #Main Loop -----------------------------------------
 
-while True:
+run = True
+while run:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -546,6 +574,15 @@ while True:
     for barrel in barrels:
         barrel.move()
         barrel.update()
+    if P1.dead:
+        pygame.mixer.quit()
+        gameOverScreen(False)
+    if 320<P1.pos.x<480 and 38<P1.pos.y<41 and P1.climbing == False and P1.declimbing == False:
+        for entity in all_sprites:
+            display_surface.blit(entity.surf,entity.rect)
+        pygame.display.update()
+        pygame.mixer.quit()
+        gameOverScreen(True)
     for entity in all_sprites:
         display_surface.blit(entity.surf,entity.rect)
 
